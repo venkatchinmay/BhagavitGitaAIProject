@@ -45,14 +45,35 @@ Your terminal prompt should now show `(venv)` indicating the virtual environment
 ### 2. Install Dependencies
 
 ```bash
-pip install -r requirements.txt
+pip3 install -r requirements.txt
 ```
 
-### 3. Set Up Ollama Access
+### 3. Set Up Ollama
 
-The application uses a local Ollama LLM running in your Kubernetes cluster. 
+You have two options for running Ollama:
 
-**If running Jupyter notebook locally** (outside the cluster), you need to port-forward:
+#### Option A: Local Ollama (Recommended - More Stable)
+
+**Install and start Ollama:**
+```bash
+# Start Ollama service
+ollama serve
+
+# In a new terminal, pull the model
+ollama pull phi3.5:latest
+```
+
+**Verify:**
+```bash
+ollama list
+# Should show: phi3.5:latest
+```
+
+Your notebook will automatically connect to `http://localhost:11434`.
+
+#### Option B: Kubernetes Ollama
+
+**If you have Ollama running in K8s**, use port-forward:
 
 ```bash
 # Port-forward Ollama service to your local machine
@@ -61,9 +82,7 @@ kubectl port-forward -n ollama svc/ollama 11434:11434
 
 Keep this running in a separate terminal while using the notebook.
 
-**If running inside the cluster** (e.g., JupyterHub), the default configuration will work automatically:
-- Service URL: `http://ollama.ollama.svc.cluster.local:11434`
-- Model: `phi3.5`
+**Note**: K8s option may have stability issues with large models. See [KUBERNETES_SETUP.md](KUBERNETES_SETUP.md) for details.
 
 ### 4. Configure Environment (Optional)
 
@@ -73,9 +92,9 @@ Copy the example configuration:
 cp .env.example .env
 ```
 
-Edit `.env` if you need to change defaults:
-- `OLLAMA_BASE_URL` - Use `http://localhost:11434` if port-forwarding
-- `OLLAMA_MODEL` - Default is `phi3.5` (already installed in your cluster)
+Edit `.env` if needed:
+- `OLLAMA_BASE_URL` - Default: `http://localhost:11434` (works for both local and K8s with port-forward)
+- `OLLAMA_MODEL` - Default: `phi3.5:latest`
 
 ### 5. Run the Notebook
 
