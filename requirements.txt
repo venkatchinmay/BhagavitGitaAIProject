@@ -1,0 +1,28 @@
+# Core Dependencies for Bhagavad Gita AI Application
+
+# Vector Database
+chromadb>=0.4.22
+
+# Embedding Models
+sentence-transformers>=2.3.1
+
+# API & HTTP
+requests>=2.31.0
+
+# Progress Bars
+tqdm>=4.66.1
+
+# Local LLM (Ollama)
+ollama>=0.1.0
+
+# Jupyter Support
+jupyter>=1.0.0
+notebook>=7.0.7
+ipywidgets>=8.1.1
+
+# Data Processing
+pandas>=2.1.4
+numpy>=1.26.3
+
+# Utilities
+python-dotenv>=1.0.0
